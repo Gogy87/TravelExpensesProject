@@ -30,6 +30,11 @@ page 50101 "Travel Order Card"
 
                 }
 
+                field("Starting Location"; "Starting Location")
+                {
+                    ApplicationArea = All;
+
+                }
 
                 field("Travel Start Date"; "Travel Start Date")
                 {
@@ -37,8 +42,13 @@ page 50101 "Travel Order Card"
 
                 }
 
-
                 field("Travel Start Time"; "Travel Start Time")
+                {
+                    ApplicationArea = All;
+
+                }
+
+                field("Ending Location"; "Ending Location")
                 {
                     ApplicationArea = All;
 
@@ -49,7 +59,6 @@ page 50101 "Travel Order Card"
                     ApplicationArea = All;
 
                 }
-
 
                 field("Travel End Time"; "Travel End Time")
                 {
@@ -62,6 +71,24 @@ page 50101 "Travel Order Card"
                     ApplicationArea = All;
 
                 }
+
+                field("Approved By"; "Approved By")
+                {
+                    ApplicationArea = All;
+
+                }
+
+                field("Date Of Approval"; "Date Of Approval")
+                {
+                    ApplicationArea = All;
+
+                }
+            }
+
+            part(Lines; "Travel Order Subform")
+            {
+                ApplicationArea = Basic, Suite;
+                SubPageLink = "Document No." = FIELD("No.");
             }
         }
         area(Factboxes)

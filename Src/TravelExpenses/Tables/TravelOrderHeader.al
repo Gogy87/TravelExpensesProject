@@ -35,37 +35,75 @@ table 50100 "Travel Order Header"
             Caption = 'Employee Name';
         }
 
-        field(4; "Travel Start Date"; Date)
+        field(4; "Starting Location"; text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Starting Location';
+            TableRelation = "Post Code".City;
+            ValidateTableRelation = true;
+        }
+
+        field(5; "Travel Start Date"; Date)
         {
             DataClassification = EndUserIdentifiableInformation;
             Caption = 'Travel Start Date';
         }
 
-        field(5; "Travel Start Time"; Time)
+        field(6; "Travel Start Time"; Time)
         {
             DataClassification = EndUserIdentifiableInformation;
             Caption = 'Travel Start Time';
         }
 
-        field(6; "Travel End Date"; Date)
+        field(7; "Ending Location"; text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Ending Location';
+            TableRelation = "Post Code".City;
+            ValidateTableRelation = true;
+        }
+
+        field(8; "Travel End Date"; Date)
         {
             DataClassification = EndUserIdentifiableInformation;
             Caption = 'Travel End Date';
         }
 
-        field(7; "Travel End Time"; Time)
+        field(9; "Travel End Time"; Time)
         {
             DataClassification = EndUserIdentifiableInformation;
             Caption = 'Travel End Time';
         }
 
-        field(8; "Status"; Option)
+        field(10; "Status"; Option)
         {
             DataClassification = EndUserIdentifiableInformation;
             OptionMembers = "In Progress","Released","Approved","Rejected";
             OptionCaption = 'In Progress, Released, Approved, Rejected';
             Caption = 'Status';
             Editable = false;
+        }
+
+        field(11; "Approved By"; Code[50])
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Approved By';
+            Editable = false;
+        }
+
+        field(12; "Date Of Approval"; date)
+        {
+            DataClassification = CustomerContent;
+            Caption = 'Date Of Approval';
+            Editable = false;
+        }
+
+        field(13; "Total Amount"; Decimal)
+        {
+            Caption = 'Total Amount';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum ("Travel Order Line".Amount where("Document No." = field("No.")));
         }
     }
 

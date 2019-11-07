@@ -19,71 +19,56 @@ table 50101 "Travel Order Line"
             Editable = false;
         }
 
-        field(3; "Transportation Type"; Option)
+        field(3; "Cost Type"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Cost Type';
+            TableRelation = "Travel Cost".Code;
+            ValidateTableRelation = true;
+
+            trigger OnValidate()
+            var
+                TravelCost: Record "Travel Cost";
+            begin
+                IF TravelCost.GET("Cost Type") THEN begin
+                    "Cost Description" := TravelCost.Description;
+                    "Unit Cost" := TravelCost."Unit Cost";
+                END ELSE begin
+                    "Cost Description" := '';
+                    "Unit Cost" := 0;
+                END;
+            end;
+        }
+
+        field(4; "Cost Description"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Cost Description';
+        }
+
+        field(5; "Transportation Type"; Option)
         {
             DataClassification = ToBeClassified;
             Caption = 'Transportation Type';
             OptionMembers = "Own Car","Company Car",Taxi,Train,Plane,Ship,Spaceship;
             OptionCaption = 'Own Car,Taxi,Train,Plane,Ship,Spaceship';
         }
-
-        field(4; "Starting Location"; text[100])
+        field(6; Quantity; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Starting Location';
-            TableRelation = "Post Code".City;
-            ValidateTableRelation = true;
+            Caption = 'Quantity';
         }
 
-        field(5; "Ending Location"; text[100])
+        field(7; "Unit Cost"; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Ending Location';
-            TableRelation = "Post Code".City;
-            ValidateTableRelation = true;
+            Caption = 'Unit Cost';
         }
 
-        field(6; "Trip Duration (hours)"; Integer)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Trip Duration (hours)';
-
-            trigger OnValidate()
-            begin
-                IF "Starting Date" <> 0D then begin
-                    IF "Starting Time" <> 0T then
-                        "Ending Time" := "Starting Time" + "Trip Duration (hours)"
-                    else
-                        ERROR('You must specify "Starting Time"');
-                end else
-                    ERROR('You must specify "Starting Date');
-            end;
-        }
-
-        field(7; "Starting Date"; Date)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Starting Date';
-        }
-
-        field(8; "Starting Time"; Time)
+        field(8; Amount; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Starting Time';
-        }
-
-        field(9; "Ending Date"; Date)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'Ending Date';
-            Editable = false;
-        }
-
-        field(10; "Ending Time"; Time)
-        {
-            DataClassification = ToBeClassified;
-            Caption = 'EndingTime';
-            Editable = false;
         }
     }
 
