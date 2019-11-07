@@ -2,6 +2,7 @@ table 50100 "Travel Order Header"
 {
     DataClassification = ToBeClassified;
     Caption = 'Travel Order Header';
+    DataCaptionFields = "No.", "Employee Name";
 
     fields
     {
@@ -121,8 +122,9 @@ table 50100 "Travel Order Header"
     trigger OnInsert()
     var
         NoSeriesMgmt: Codeunit NoSeriesManagement;
+        TravOrderSetup: record "Travel Order Setup";
     begin
-        "No." := NoSeriesMgmt.GetNextNo('TRAVEL', Today, true);
+        "No." := NoSeriesMgmt.GetNextNo(TravOrderSetup."Travel Order No. Series", Today, true);
         Status := Status::"In Progress";
     end;
 

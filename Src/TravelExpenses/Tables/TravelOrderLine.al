@@ -40,35 +40,44 @@ table 50101 "Travel Order Line"
             end;
         }
 
-        field(4; "Cost Description"; Code[10])
+        field(4; "Cost Description"; Text[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Cost Description';
         }
 
-        field(5; "Transportation Type"; Option)
+        field(5; "Transportation Type"; enum "Transportation Type Enum")
         {
             DataClassification = ToBeClassified;
             Caption = 'Transportation Type';
-            OptionMembers = "Own Car","Company Car",Taxi,Train,Plane,Ship,Spaceship;
-            OptionCaption = 'Own Car,Taxi,Train,Plane,Ship,Spaceship';
         }
         field(6; Quantity; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Quantity';
+
+            trigger OnValidate()
+            begin
+                Amount := Quantity * "Unit Cost";
+            end;
         }
 
         field(7; "Unit Cost"; Decimal)
         {
             DataClassification = ToBeClassified;
             Caption = 'Unit Cost';
+
+            trigger OnValidate()
+            begin
+                Amount := Quantity * "Unit Cost";
+            end;
         }
 
         field(8; Amount; Decimal)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Starting Time';
+            Caption = 'Amount';
+            Editable = false;
         }
     }
 
@@ -84,8 +93,15 @@ table 50101 "Travel Order Line"
         myInt: Integer;
 
     trigger OnInsert()
+    var
+        TravOrderLine: Record "Travel Order Line";
     begin
-
+        TravOrderLine.Reset();
+        TravOrderLine.SetRange("Document No.", "Document No.");
+        IF TravOrderLine.FindLast() then
+            "Line No." := TravOrderLine."Line No." + 10000
+        Else
+            "Line No." := 10000;
     end;
 
     trigger OnModify()

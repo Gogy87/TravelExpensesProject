@@ -28,6 +28,12 @@ page 50102 "travel Order Subform"
 
                 }
 
+                field(Quantity; Quantity)
+                {
+                    ApplicationArea = All;
+
+                }
+
                 field("Unit Cost"; "Unit Cost")
                 {
                     ApplicationArea = All;
